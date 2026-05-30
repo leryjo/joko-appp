@@ -1,0 +1,31 @@
+1. bash run
+2. bash start_login_inside_docker.sh
+3. bash start_loop_inside_docker.sh
+4. bash stop_loop_inside_docker.sh
+untuk stop 
+
+cek run docker
+docker ps
+
+hapus container 
+docker rm -f joko-terminal-data-v5
+
+hapus volume
+docker system prune -a --volumes -f
+
+Cek loop.py
+docker exec -it joko-terminal-data-v5 pgrep -af loop.py
+
+docker exec -it joko-terminal-data-v5 tail -f /joko-app/data/loop_log.txt
+
+Cek login.py
+docker exec -it joko-terminal-data-v5 pgrep -af login.py
+
+Cek semua proses Python
+docker exec -it joko-terminal-data-v5 ps -ef | grep python
+
+Cek log loop terbaru
+docker exec -it joko-terminal-data-v5 tail -n 100 /joko-app/data/loop_log.txt
+
+Cek status container
+docker ps

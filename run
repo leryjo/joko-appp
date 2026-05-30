@@ -1,0 +1,35 @@
+#!/usr/bin/env bash
+set -euo pipefail
+APP_NAME="${APP_NAME:-joko-terminal-data-v5}"
+SCRIPT_DIR="$(cd "$(dirname "$0")" && pwd)"
+DATA_DIR="$SCRIPT_DIR/data"
+
+mkdir -p "$DATA_DIR/chrome_profiles" "$DATA_DIR/screenshots" "$DATA_DIR/snapshots" "$DATA_DIR/notif_markers"
+touch "$DATA_DIR/email.txt" "$DATA_DIR/emailshare.txt" "$DATA_DIR/mapping_profil.txt" \
+      "$DATA_DIR/loop_log.txt" "$DATA_DIR/login_log.txt" "$DATA_DIR/bot_log.txt" \
+      "$DATA_DIR/hasil.txt" "$DATA_DIR/akun_bermasalah.txt" "$DATA_DIR/loop_status.json"
+[ -s "$DATA_DIR/loop_status.json" ] || echo '{}' > "$DATA_DIR/loop_status.json"
+
+# Setelah docker run, loop TIDAK langsung jalan.
+rm -f "$DATA_DIR/.loop_enabled.flag" "$DATA_DIR/loop.pid" "$DATA_DIR/login.pid" 2>/dev/null || true
+
+docker rm -f "$APP_NAME" >/dev/null 2>&1 || true
+docker build -t "$APP_NAME" .
+docker run -d --restart unless-stopped --privileged \
+  --name "$APP_NAME" \
+  -e BASE_DIR=/joko-app/data \
+  -e DATA_DIR=/joko-app/data \
+  -e PROFILES_ROOT=/joko-app/data/chrome_profiles \
+  -e TG_TOKEN="${TG_TOKEN:-8333206393:AAG8Z76SSbgAEAC1a3oPT8XhAF9t_rDOq3A}" \
+  -e TG_CHAT_ID="${TG_CHAT_ID:--1003532458425}" \
+  -v "$DATA_DIR:/joko-app/data" \
+  "$APP_NAME"
+
+echo "Container running: $APP_NAME"
+echo "Panel/menu sudah dihapus."
+echo "NOTE: login dan loop belum jalan sebelum kamu start manual."
+echo "Start login : bash start_login_inside_docker.sh"
+echo "Start loop  : bash start_loop_inside_docker.sh"
+echo "Stop loop   : bash stop_loop_inside_docker.sh"
+echo "Log Docker  : docker logs -f $APP_NAME"
+echo "Cek proses  : docker exec -it $APP_NAME pgrep -af 'login.py|loop.py'"
