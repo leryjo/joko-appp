@@ -118,8 +118,8 @@ tg_send "🚀 DOCKER STARTED\nContainer: ${HOSTNAME:-joko-terminal-data-v5}\nMod
 loop_keeper &
 
 echo "Container aktif."
-echo "Start login : bash start_login_inside_docker.sh"
-echo "Start loop  : bash start_loop_inside_docker.sh"
-echo "Stop loop   : bash stop_loop_inside_docker.sh"
+echo "Start login : bash login"
+echo "Start loop  : bash startloop"
+echo "Stop loop   : bash stoploop"
 echo "Docker logs : docker logs -f <container>"
 tail -f /dev/null
