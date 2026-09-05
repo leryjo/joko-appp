@@ -1,4 +1,4 @@
-FROM python:3.9-slim-bullseye
+FROM python:3.14-slim-trixie
 
 ENV DEBIAN_FRONTEND=noninteractive \
     PYTHONUNBUFFERED=1 \
@@ -50,11 +50,11 @@ RUN set -eux; \
     ln -sf /usr/local/bin/chromedriver /usr/bin/chromedriver
 
 RUN pip install --no-cache-dir --upgrade pip && \
-    pip install --no-cache-dir psutil requests selenium==4.9.0 Pillow pyvirtualdisplay mss pyautogui colorama
+    pip install --no-cache-dir psutil requests selenium==4.48.0 Pillow pyvirtualdisplay mss pyautogui colorama
 
-COPY login.py loop.py entrypoint.sh login startloop stoploop ./
+COPY login.py loop.py entrypoint.sh login startloop stoplopp ./
 
-RUN chmod +x /joko-app/entrypoint.sh /joko-app/login /joko-app/startloop /joko-app/stoploop && \
+RUN chmod +x /joko-app/entrypoint.sh /joko-app/start_login_inside_docker.sh /joko-app/startloop /joko-app/stoploop && \
     mkdir -p /joko-app/data/chrome_profiles /joko-app/data/screenshots /joko-app/data/snapshots /joko-app/data/notif_markers && \
     touch /joko-app/data/email.txt /joko-app/data/emailshare.txt /joko-app/data/mapping_profil.txt \
           /joko-app/data/bot_log.txt /joko-app/data/login_log.txt /joko-app/data/loop_log.txt \
