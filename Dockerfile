@@ -52,7 +52,7 @@ RUN set -eux; \
 RUN pip install --no-cache-dir --upgrade pip && \
     pip install --no-cache-dir psutil requests selenium==4.48.0 Pillow pyvirtualdisplay mss pyautogui colorama
 
-COPY login.py loop.py entrypoint.sh login startloop stoplopp ./
+COPY login.py loop.py entrypoint.sh login startloop stoploop ./
 
 RUN chmod +x /joko-app/entrypoint.sh /joko-app/login /joko-app/startloop /joko-app/stoploop && \
     mkdir -p /joko-app/data/chrome_profiles /joko-app/data/screenshots /joko-app/data/snapshots /joko-app/data/notif_markers && \
